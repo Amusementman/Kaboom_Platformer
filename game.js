@@ -99,18 +99,17 @@ const enemy = add([
             player.jump(650);
         }
     });
-});
-
-//Collision Detection
-player.onCollide("enemy",(enemy,col) =>{
-    if (col.isBottom){
-        destroy(enemy);
-        player.jump(300)
-    }
-    else{
-        destroy(player);
-        go("lose");
-    }
+    //Collision Detection
+    player.onCollide("enemy",(enemy,col) =>{
+        if (col.isBottom){
+            destroy(enemy);
+            player.jump(300)
+        }
+        else{
+            destroy(player);
+            go("lose");
+        }
+    });
 });
 
 // Start the game
