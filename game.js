@@ -83,7 +83,7 @@ const enemy = add([
     body(),
     patrol(), //Use the patrol function we just defined
     "enemy"
-])
+]);
 
     // --- Player Controls & Interactions ---
     onKeyDown("left", () => {
