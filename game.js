@@ -11,7 +11,8 @@ setGravity(800);
 // --- Load Assets ---
 // For Day 1, we only need the player's sprite.
 loadSprite("apple", "https://kaboomjs.com/sprites/apple.png");
-
+//Enemy Sprite
+loadSprite("enemy", "https://kaboom.js.com/sprites/gigagantrum.png");
 
 // --- Main Game Scene ---
 scene("main", () => {
@@ -20,7 +21,7 @@ scene("main", () => {
     const levelLayout = [
         "                    ",
         "                    ",
-        "    =         =     ",
+        "    ==        =     ",
         "                    ",
         "  =       =      =  ",
         "                    ",
@@ -52,6 +53,27 @@ scene("main", () => {
         body(),
         "player",
     ]);
+
+    
+    //The Enemy Patrol
+    function patrol(){
+        return {
+            id: "patrol",
+            require: ["pos", "area"],
+            dir: -1,
+            update(){
+                this.move(60 * this.dir, 0)
+            },
+            //This next event will flip direction if the enemy collides with something
+            add(){
+                this.onCollide((Object, col) => {
+                    if (col.isLeft() || col.isRight()){
+                        this.dir = -this.dir;
+                    }
+                });
+            },
+        };
+    }
 
     // --- Player Controls & Interactions ---
     onKeyDown("left", () => {
