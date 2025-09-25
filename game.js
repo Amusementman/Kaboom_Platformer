@@ -101,5 +101,17 @@ const enemy = add([
     });
 });
 
+//Collision Detection
+player.onCollide("enemy",(enemy,col) =>{
+    if (col.isBottom){
+        destroy(enemy);
+        player.jump(300)
+    }
+    else{
+        destroy(player);
+        go("lose")
+    }
+});
+
 // Start the game
 go("main");
