@@ -75,6 +75,16 @@ scene("main", () => {
         };
     }
 
+    //Add enemy to the scene
+const enemy = add([
+    sprite("enemy"),
+    pos(600, 200), //start position for the enemy
+    area(),
+    body(),
+    patrol(), //Use the patrol function we just defined
+    "enemy"
+])
+
     // --- Player Controls & Interactions ---
     onKeyDown("left", () => {
         player.move(-200, 0);
