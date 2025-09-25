@@ -109,7 +109,7 @@ player.onCollide("enemy",(enemy,col) =>{
     }
     else{
         destroy(player);
-        go("lose")
+        go("lose");
     }
 });
 
