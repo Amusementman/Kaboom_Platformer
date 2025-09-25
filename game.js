@@ -112,5 +112,14 @@ const enemy = add([
     });
 });
 
+//--Game Over Scene
+scene("lose", () => {
+    add([
+        text("Game Over"),
+        pos(center()),
+        anchor("center",)
+    ]);
+});
+
 // Start the game
 go("main");
