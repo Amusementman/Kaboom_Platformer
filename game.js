@@ -9,7 +9,7 @@ kaboom({
 setGravity(800);
 
 // --- Load Assets ---
-loadSprite("apple", "https://kaboomjs.com/sprites/apple.png");
+loadSprite("btfly", "https://kaboomjs.com/sprites/btfly.png");
 loadSprite("enemy", "https://kaboomjs.com/sprites/gigagantrum.png");
 loadSprite("coin", "https://kaboomjs.com/sprites/coin.png");
 loadSprite("door", "https://kaboomjs.com/sprites/door.png");
@@ -108,7 +108,7 @@ scene("main", ({ level } = { level: 0 }) => {
 
     // --- The Player Character ---
     const player = add([
-        sprite("apple"),
+        sprite("btfly"),
         pos(100, 100),
         area({ scale: 0.7 }),
         body(),
