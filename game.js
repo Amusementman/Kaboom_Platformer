@@ -10,7 +10,7 @@ setGravity(800);
 
 // --- Load Assets ---
 loadSprite("btfly", "https://kaboomjs.com/sprites/btfly.png");
-loadSprite("enemy", "https://kaboomjs.com/sprites/gigagantrum.png");
+loadSprite("enemy", "https://kaboomjs.com/sprites/gun.png");
 loadSprite("coin", "https://kaboomjs.com/sprites/coin.png");
 loadSprite("door", "https://kaboomjs.com/sprites/door.png");
 
