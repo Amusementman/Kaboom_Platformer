@@ -1,18 +1,20 @@
 // Initialize the Kaboom context.
 kaboom({
-    width: 900,
-    height: 600,
+    width: 1400,
+    height: 800,
     background: [82, 70, 105],
 });
 
 // Set the global gravity value for all physics objects.
-setGravity(800);
+setGravity(1200);
 
 // --- Load Assets ---
 loadSprite("btfly", "https://kaboomjs.com/sprites/btfly.png");
 loadSprite("enemy", "https://kaboomjs.com/sprites/ghosty.png");
 loadSprite("moon", "https://kaboomjs.com/sprites/moon.png");
 loadSprite("sun", "https://kaboomjs.com/sprites/sun.png");
+loadSprite("heart", "https://kaboomjs.com/sprites/heart.png");
+loadSprite("door", "https://kaboomjs.com/sprites/door.png");
 
 // --- Define Custom Components ---
 // By defining patrol() here, it's globally available and can be used by any scene.
@@ -41,22 +43,31 @@ scene("main", ({ level } = { level: 0 }) => {
     // Array of all level layouts
     const LEVELS = [
         [
-            "   $    $    $     ",
-            "                    ",
-            "    =         =   D ",
-            "                    ",
-            "  =    ^  =      =  ",
-            " $           $      ",
-            "====================",
+            "                             ",
+            "         ^  $ ^           D  ",
+            "        $   =    $  ^     =  ",
+            "        =        =           ",
+            "    $                  $     ",
+            "   =                   =     ",
+            "=============================",
         ],
         [
-            " $                  ",
-            " =                  ",
-            "      =      =      ",
-            "                    ",
-            "     ^           ^  ",
-            "      =      =    D ",
-            "====================",
+            "       ^     ^     ^         ",
+            "           $     ==  $  == D ",
+            "           =   =  =====  =   ",
+            "    $  ====        $         ",
+            "   ==            ====        ",
+            "=           $               =",
+            "=============================",
+        ],
+                [
+            "                             ",
+            "                             ",
+            "                             ",
+            "                             ",
+            "                             ",
+            "                             ",
+            "=============================",
         ]
     ];
 
@@ -70,7 +81,7 @@ scene("main", ({ level } = { level: 0 }) => {
             " ": () => [],
             "=": () => [
                 rect(47, 47),
-                color(0, 200, 0),
+                color(230, 223, 237),
                 area(),
                 body({ isStatic: true }),
                 "platform",
@@ -79,6 +90,11 @@ scene("main", ({ level } = { level: 0 }) => {
                 sprite("moon"),
                 area(),
                 "moon",
+            ],
+            "+": () => [
+                sprite("heart"),
+                area(),
+                "heart",
             ],
             "D": () => [
                 sprite("sun"),
@@ -93,6 +109,12 @@ scene("main", ({ level } = { level: 0 }) => {
                 patrol(),
                 "enemy",
             ],
+            "@": () => [
+                sprite("door"),
+                area(),
+                body(),
+                "door",
+            ],
         }
     };
 
@@ -101,7 +123,7 @@ scene("main", ({ level } = { level: 0 }) => {
     // --- Score & UI ---
     let score = 0;
     const scoreLabel =add([
-        text("Score:" + score),
+        text("Collect the moons"),
         pos(24,24),
         fixed(),
     ]);
@@ -124,9 +146,21 @@ scene("main", ({ level } = { level: 0 }) => {
     player.onCollide("moon", (moon) =>{
         destroy(moon);
         score+= 10;
-        scoreLabel.text ="Score: " + score;
+        if (score == 50){
+            scoreLabel.text = "Go into the sun";
+        }if (score == 100){
+            scoreLabel.text = "Find your heart";
+        }else{
+            scoreLabel.text ="Score: " + score;
+        }
 
     });
+
+    player.onCollide("heart", (heart) =>{
+        destroy(heart);
+        score+= "your true self";
+        scoreLabel.text = "Go home, he's waiting for you";
+    })
 
     player.onCollide("enemy", (enemy, col) => {
         if (col.isBottom()) {
@@ -139,6 +173,13 @@ scene("main", ({ level } = { level: 0 }) => {
     });
 
     player.onCollide("sun", () => {
+        if (currentLevel + 1 < LEVELS.length) {
+            go("main", { level: currentLevel + 1 });
+        } else {
+            go("win");
+        }
+    });
+        player.onCollide("door", () => {
         if (currentLevel + 1 < LEVELS.length) {
             go("main", { level: currentLevel + 1 });
         } else {
