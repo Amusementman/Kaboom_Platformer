@@ -1,8 +1,8 @@
 // Initialize the Kaboom context.
 kaboom({
-    width: 800,
+    width: 900,
     height: 600,
-    background: [0, 100, 200],
+    background: [82, 70, 105],
 });
 
 // Set the global gravity value for all physics objects.
@@ -10,9 +10,9 @@ setGravity(800);
 
 // --- Load Assets ---
 loadSprite("btfly", "https://kaboomjs.com/sprites/btfly.png");
-loadSprite("enemy", "https://kaboomjs.com/sprites/gun.png");
-loadSprite("coin", "https://kaboomjs.com/sprites/coin.png");
-loadSprite("door", "https://kaboomjs.com/sprites/door.png");
+loadSprite("enemy", "https://kaboomjs.com/sprites/ghosty.png");
+loadSprite("moon", "https://kaboomjs.com/sprites/moon.png");
+loadSprite("sun", "https://kaboomjs.com/sprites/sun.png");
 
 // --- Define Custom Components ---
 // By defining patrol() here, it's globally available and can be used by any scene.
@@ -76,14 +76,14 @@ scene("main", ({ level } = { level: 0 }) => {
                 "platform",
             ],
             "$": () => [
-                sprite("coin"),
+                sprite("moon"),
                 area(),
-                "coin",
+                "moon",
             ],
             "D": () => [
-                sprite("door"),
+                sprite("sun"),
                 area(),
-                "door",
+                "sun",
             ],
             // This now correctly uses the globally-defined patrol() function.
             "^": () => [
@@ -100,11 +100,11 @@ scene("main", ({ level } = { level: 0 }) => {
 
     // --- Score & UI ---
     let score = 0;
-    const scoreLabel = add([
-        text("Score: " + score),
-        pos(24, 24),
-        fixed()
-    ])
+    const scoreLabel =add([
+        text("Score:" + score),
+        pos(24,24),
+        fixed(),
+    ]);
 
     // --- The Player Character ---
     const player = add([
@@ -120,13 +120,13 @@ scene("main", ({ level } = { level: 0 }) => {
     onKeyDown("right", () => { player.move(200, 0); });
     onKeyPress("space", () => { if (player.isGrounded()) { player.jump(650); } });
 
-    // --Coin Collecting Logic --
-    player.onCollide("coin", (coin)=>{
-        destroy(coin);
-        score += 10;
-        scoreLabel.text = "Score: " + score;
-    })
+    //--Moon Collecting Logic--
+    player.onCollide("moon", (moon) =>{
+        destroy(moon);
+        score+= 10;
+        scoreLabel.text ="Score: " + score;
 
+    });
 
     player.onCollide("enemy", (enemy, col) => {
         if (col.isBottom()) {
@@ -138,7 +138,7 @@ scene("main", ({ level } = { level: 0 }) => {
         }
     });
 
-    player.onCollide("door", () => {
+    player.onCollide("sun", () => {
         if (currentLevel + 1 < LEVELS.length) {
             go("main", { level: currentLevel + 1 });
         } else {
