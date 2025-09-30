@@ -15,6 +15,8 @@ loadSprite("moon", "https://kaboomjs.com/sprites/moon.png");
 loadSprite("sun", "https://kaboomjs.com/sprites/sun.png");
 loadSprite("heart", "https://kaboomjs.com/sprites/heart.png");
 loadSprite("door", "https://kaboomjs.com/sprites/door.png");
+loadSprite("truth", "https://kaboomjs.com/sprites/key.png");
+
 
 // --- Define Custom Components ---
 // By defining patrol() here, it's globally available and can be used by any scene.
@@ -66,7 +68,7 @@ scene("main", ({ level } = { level: 0 }) => {
             "                          =  ",
             "                             ",
             "                             ",
-            "                             ",
+            "     !                       ",
             "=============================",
         ]
     ];
@@ -90,6 +92,11 @@ scene("main", ({ level } = { level: 0 }) => {
                 sprite("moon"),
                 area(),
                 "moon",
+            ],
+            "!": () => [
+                sprite("truth"),
+                area(),
+                "truth",
             ],
             "+": () => [
                 sprite("heart"),
@@ -148,7 +155,14 @@ scene("main", ({ level } = { level: 0 }) => {
         score+= 10;
         if (score == 50){
             scoreLabel.text = "Go into the sun";
-        }if (score == 100){
+        }else{
+            scoreLabel.text ="Score: " + score;
+        }
+
+    player.onCollide("truth", (key) =>{
+        destroy(key);
+        score+= 100;
+        if (score == 100){
             scoreLabel.text = "Find your heart";
         }else{
             scoreLabel.text ="Score: " + score;
