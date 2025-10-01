@@ -65,9 +65,9 @@ scene("main", ({ level } = { level: 0 }) => {
                 [
             "              +              ",
             "              =           @  ",
-            "                          =  ",
-            "                             ",
-            "                             ",
+            "                    =     =  ",
+            "          =                  ",
+            "       =                     ",
             "     !                       ",
             "=============================",
         ]
@@ -150,7 +150,7 @@ scene("main", ({ level } = { level: 0 }) => {
     onKeyPress("space", () => { if (player.isGrounded()) { player.jump(650); } });
 
     //--Moon Collecting Logic--
-    player.onCollide("moon", (moon) =>{
+    player.onCollide("moon", (moon) => {
         destroy(moon);
         score+= 10;
         if (score == 50){
@@ -158,6 +158,7 @@ scene("main", ({ level } = { level: 0 }) => {
         }else{
             scoreLabel.text ="Score: " + score;
         }
+    });
 
     player.onCollide("truth", (key) =>{
         destroy(key);
@@ -174,7 +175,7 @@ scene("main", ({ level } = { level: 0 }) => {
         destroy(heart);
         score+= "your true self";
         scoreLabel.text = "Go home, he's waiting for you";
-    })
+    });
 
     player.onCollide("enemy", (enemy, col) => {
         if (col.isBottom()) {
@@ -218,5 +219,3 @@ scene("win", () => {
 
 // Start the game
 go("main");
-
-
